@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, ButtonText } from './styles';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RectButtonProperties } from 'react-native-gesture-handler';
 
 interface ButtonProps extends RectButtonProperties {
