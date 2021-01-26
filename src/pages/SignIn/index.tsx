@@ -5,10 +5,13 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Platform,
+    TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormHandles } from '@unform/core';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -26,6 +29,7 @@ import {
 
 const SignIn: React.FC = () => {
     const formRef = useRef<FormHandles>(null); //criou a ref pra manipular o elemento de forma direta
+    const passwordInputRef = useRef<TextInput>(null);
     const navigation = useNavigation();
     const handleSignIn = useCallback((data: object) => {
         console.log(data);
@@ -50,15 +54,28 @@ const SignIn: React.FC = () => {
                         </View>
                         <Form ref={formRef} onSubmit={handleSignIn}>
                             <Input
+                                autoCorrect={false}
+                                autoCapitalize="none"
+                                keyboardType="email-address"
                                 name="email"
                                 icon="mail"
                                 placeholder="E-mail"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    passwordInputRef.current?.focus();
+                                }}
                             />
 
                             <Input
+                                ref={passwordInputRef}
                                 name="password"
                                 icon="lock"
                                 placeholder="Senha"
+                                secureTextEntry={true}
+                                returnKeyType="send"
+                                onSubmitEditing={() => {
+                                    formRef.current?.submitForm();
+                                }} // função disparada qunado aquele botaozinho do teclado do canto é clicado ('enviar')
                             />
 
                             <Button

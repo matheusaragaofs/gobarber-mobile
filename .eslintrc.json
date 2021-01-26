@@ -29,9 +29,10 @@
         "prettier"
     ],
     "rules": {
-            "react-hooks/rules-of-hooks": "error",
-            "prettier/prettier":"error",
-            "no-unused-vars": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "prettier/prettier":"error",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "warn",
       "react-hooks/exhaustive-deps": "warn",
       "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
       "no-use-before-define": "off",

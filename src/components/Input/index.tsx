@@ -1,4 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, {
+    useEffect,
+    useRef,
+    useImperativeHandle,
+    forwardRef,
+} from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TextInputProps } from 'react-native';
 import { Container, TextInput, Icon } from './styles';
 import { useField } from '@unform/core';
@@ -11,22 +17,35 @@ interface InputProps extends TextInputProps {
 interface InputValueReference {
     value: string;
 }
-const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
+
+interface InputRef {
+    focus(): void;
+}
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
+    { name, icon, ...rest },
+    ref,
+) => {
     const { fieldName, defaultValue = '', registerField } = useField(name);
     const inputElementRef = useRef<any>(null);
     const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
+    useImperativeHandle(ref, () => ({
+        focus() {
+            inputElementRef.current.focus();
+        },
+    }));
     useEffect(() => {
         registerField<string>({
             name: fieldName,
             ref: inputValueRef.current,
             path: 'value',
             setValue(ref: any, value) {
+                //função pra setar o valor de forma manual
                 (inputValueRef.current.value = value),
-                    inputElementRef.current.setNativeProps({ text: value });
+                    inputElementRef.current.setNativeProps({ text: value }); //setar uma propriedade no elemento nativo do android/ios  // /vai ser responsável por mudar visualmente o texto que está dentro do input,
             },
             clearValue() {
                 inputValueRef.current.value = '';
-                inputElementRef.current.clear();
+                inputElementRef.current.clear(); //  mesma coisa que inputElementRef.current.setNativeProps({ text: '' });
             },
         });
     }, [fieldName, registerField]);
@@ -46,4 +65,4 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
     );
 };
 
-export default Input;
+export default forwardRef(Input);
