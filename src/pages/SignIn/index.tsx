@@ -36,7 +36,6 @@ interface SignInFormData {
 }
 const SignIn: React.FC = () => {
     const { signIn, user } = useAuth();
-    console.log(user);
     const formRef = useRef<FormHandles>(null); //criou a ref pra manipular o elemento de forma direta
     const passwordInputRef = useRef<TextInput>(null);
     const navigation = useNavigation();
@@ -60,6 +59,7 @@ const SignIn: React.FC = () => {
                     email: data.email,
                     password: data.password,
                 });
+                console.log(user);
 
                 // history.push('/dashboard');
             } catch (err) {

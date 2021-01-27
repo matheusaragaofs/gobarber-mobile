@@ -54,7 +54,7 @@ const SignUp: React.FC = () => {
                 await schema.validate(data, {
                     abortEarly: false,
                 });
-
+                console.log(data);
                 await api.post('/users', data);
                 Alert.alert(
                     'Cadastro realizado com sucesso',
